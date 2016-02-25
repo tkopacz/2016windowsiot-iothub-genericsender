@@ -12,8 +12,8 @@ namespace RegisterDevice
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Usage: \r\n",
-                "RegisterDevice <iotHubOwner> <deviceName>" );
+            Console.WriteLine("Usage: \r\n" +
+                              "RegisterDevice <iotHubOwner> <deviceName>" );
             string connection = args[0];
             string deviceName = args[1];
             RegistryManager rm = RegistryManager.CreateFromConnectionString(connection);
