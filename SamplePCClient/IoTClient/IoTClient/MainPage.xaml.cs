@@ -43,7 +43,7 @@ namespace IoTClient
             m_t.Tick += timer_Ticks;
             lstEvents.ItemsSource = m_col;
          }
-
+        string[] deviceNames = new string[] { "PC0", "PC1", "PC2", "PC3", "PC4", "PC5", "PC6", "PC7", "PC8", "PC9" };
         private async void timer_Ticks(object sender, object e)
         {
             Random rnd = new Random();
@@ -51,7 +51,7 @@ namespace IoTClient
             if (chkMsg1.IsChecked == true)
             {
                 MMsg1 msg1 = new MMsg1();
-                msg1.DeviceName = "PC";
+                msg1.DeviceName = deviceNames[rnd.Next(deviceNames.Length)];
                 msg1.MsgType = "M1";
                 msg1.MyProperty1 = rnd.Next();
                 await sendMsgObj(msg1);
@@ -59,7 +59,7 @@ namespace IoTClient
             if (chkMsg2.IsChecked == true)
             {
                 MMsg2 msg2 = new MMsg2();
-                msg2.DeviceName = "PC";
+                msg2.DeviceName = deviceNames[rnd.Next(deviceNames.Length)];
                 msg2.MsgType = "M2";
                 msg2.MyProperty2 = "AB" + Char.ConvertFromUtf32(Char.ConvertToUtf32("A",0) + rnd.Next(24));
                 await sendMsgObj(msg2);
@@ -68,13 +68,47 @@ namespace IoTClient
             if (chkError1.IsChecked==true)
             {
                 MError err = new MError();
-                err.DeviceName = "PC";
+                err.DeviceName = deviceNames[rnd.Next(deviceNames.Length)];
                 err.MsgType = "E";
                 await sendMsgObj(err);
             }
-            if (chkError1.IsChecked == true)
+            if (chkError2.IsChecked == true)
             {
                 await sendMsg("ABC"); //Trivia
+            }
+            DateTime now = DateTime.Now;
+            TimeSpan ts = new TimeSpan(now.Year, now.Minute, now.Second, now.Millisecond);
+            if (chkMAll.IsChecked == true)
+            {
+                MAll mall = new MAll();
+                mall.MsgType = "ALL";
+                mall.DeviceName = deviceNames[rnd.Next(deviceNames.Length)];
+                mall.Light = 1000 * Math.Cos(ts.TotalMilliseconds / 175) * Math.Sin(ts.TotalMilliseconds / 360) + rnd.Next(30);
+                mall.Potentiometer1 = 1000 * Math.Cos(ts.TotalMilliseconds / 275) * Math.Sin(ts.TotalMilliseconds / 560) + rnd.Next(30);
+                mall.Potentiometer2 = 1000 * Math.Cos(ts.TotalMilliseconds / 60) * Math.Sin(ts.TotalMilliseconds / 120) + rnd.Next(30);
+                mall.Pressure = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 180) * Math.Sin(ts.TotalMilliseconds / 110) + rnd.Next(30));
+                mall.Temperature = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 180) * Math.Sin(ts.TotalMilliseconds / 110) + rnd.Next(30));
+                mall.ADC3 = rnd.Next(1000);
+                mall.ADC4 = rnd.Next(1000);
+                mall.ADC5 = rnd.Next(1000);
+                mall.ADC6 = rnd.Next(1000);
+                mall.ADC7 = rnd.Next(1000);
+                mall.Altitude = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 480) * Math.Sin(ts.TotalMilliseconds / 2000) + rnd.Next(30));
+                mall.ColorName = "ABC";
+                mall.ColorRaw = new ColorData() { Blue = (ushort)rnd.Next(255), Clear = (ushort)rnd.Next(255), Green = (ushort)rnd.Next(255), Red = (ushort)rnd.Next(255) };
+                mall.ColorRgb = new RgbData() { Blue = (ushort)rnd.Next(255), Green = (ushort)rnd.Next(255), Red = (ushort)rnd.Next(255) };
+                await sendMsgObj(mall);
+            }
+
+            if (chkMSPI.IsChecked == true)
+            {
+                MSPI mspi = new MSPI();
+                mspi.MsgType = "SPI";
+                mspi.DeviceName = deviceNames[rnd.Next(deviceNames.Length)];
+                mspi.Light = 1000 * Math.Cos(ts.TotalMilliseconds / 175) * Math.Sin(ts.TotalMilliseconds / 360) + rnd.Next(30);
+                mspi.Potentiometer1 = 1000 * Math.Cos(ts.TotalMilliseconds / 275) * Math.Sin(ts.TotalMilliseconds / 560) + rnd.Next(30);
+                mspi.Potentiometer2 = 1000 * Math.Cos(ts.TotalMilliseconds / 60) * Math.Sin(ts.TotalMilliseconds / 120) + rnd.Next(30);
+                await sendMsgObj(mspi);
             }
 
 

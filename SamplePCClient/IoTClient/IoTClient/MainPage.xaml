@@ -10,7 +10,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBox x:Name="txtConnectionString" HorizontalAlignment="Left" Margin="10,61,0,0" TextWrapping="Wrap" Text="HostName=pltkdpepliot2016.azure-devices.net;DeviceId=PC;SharedAccessKey=&lt;dajmigo&gt;" VerticalAlignment="Top" Width="720" Height="125"/>
         <Button x:Name="btnConnectSubscribe" Content="Connect &amp; Subscribe" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top" Width="720" Click="btnConnectSubscribe_Click"/>
-        <ListView x:Name="lstEvents" HorizontalAlignment="Left" Height="274" Margin="10,228,0,0" VerticalAlignment="Top" Width="569" Background="#0C000000"/>
+        <ListView x:Name="lstEvents" HorizontalAlignment="Left" Height="342" Margin="10,228,0,0" VerticalAlignment="Top" Width="569" Background="#0C000000"/>
         <TextBox x:Name="txtDelay" HorizontalAlignment="Left" Margin="584,228,0,0" TextWrapping="Wrap" Text="1000" VerticalAlignment="Top" Width="122" TextAlignment="Right" TextChanged="txtDelay_TextChanged"/>
         <CheckBox x:Name="chkMsg1" Content="Msg1" HorizontalAlignment="Left" Margin="584,325,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="chkMsg2" Content="Msg2" HorizontalAlignment="Left" Margin="584,357,0,0" VerticalAlignment="Top"/>
@@ -18,7 +18,9 @@
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="711,232,0,0" TextWrapping="Wrap" Text="ms" VerticalAlignment="Top" Height="25"/>
         <CheckBox x:Name="chkError2" Content="Error2" HorizontalAlignment="Left" Margin="584,421,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="chkError1" Content="Error1" HorizontalAlignment="Left" Margin="584,389,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="cmdClear" Content="&lt; Clear" HorizontalAlignment="Left" Margin="586,458,0,0" VerticalAlignment="Top" Height="44" Width="144" Click="btnClear_Click"/>
+        <Button x:Name="cmdClear" Content="&lt; Clear" HorizontalAlignment="Left" Margin="586,526,0,0" VerticalAlignment="Top" Height="44" Width="144" Click="btnClear_Click"/>
+        <CheckBox x:Name="chkMSPI" Content="MSPI" HorizontalAlignment="Left" Margin="584,453,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkMAll" Content="MAll" HorizontalAlignment="Left" Margin="584,485,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Page>

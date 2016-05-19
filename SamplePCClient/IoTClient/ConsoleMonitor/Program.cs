@@ -28,7 +28,8 @@ namespace ConsoleMonitor
             if (deviceName != "")
             {
                 string partition = EventHubPartitionKeyResolver.ResolveToPartition(deviceName, ri.PartitionCount);
-                eventHubReceiver = eventHubClient.GetConsumerGroup(consumerGroupName).CreateReceiver(partition, DateTime.Now);
+                eventHubReceiver = eventHubClient.GetConsumerGroup(consumerGroupName).
+                    CreateReceiver(partition, DateTime.Now);
                 Task.Run(() => eventLoop(eventHubReceiver));
             } else
             {
