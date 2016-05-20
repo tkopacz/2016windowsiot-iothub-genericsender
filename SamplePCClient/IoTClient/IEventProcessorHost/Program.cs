@@ -26,13 +26,17 @@ namespace IEventProcessorHost
             EventProcessorHost eventProcessorHost = new EventProcessorHost
                 (eventProcessorHostName, 
                 "messages/events",
-                "mycode" /*EventHubConsumerGroup.DefaultGroupName*/, 
+                "code" /*EventHubConsumerGroup.DefaultGroupName*/, 
                 iotHubConnectionString, 
                 storageConnectionString,
                 "messages-events");
             Console.WriteLine("Registering EventProcessor...");
             var options = new EventProcessorOptions();
             options.ExceptionReceived += (sender, e) => { Console.WriteLine(e.Exception); };
+            options.InitialOffsetProvider = (p) =>
+            {
+                return DateTime.Now.AddMinutes(-90);
+            };
             eventProcessorHost.RegisterEventProcessorAsync<SimpleEventProcessor>(options).Wait();
 
             Console.WriteLine("Receiving. Press enter key to stop worker.");
