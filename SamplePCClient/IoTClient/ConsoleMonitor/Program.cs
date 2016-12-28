@@ -30,7 +30,7 @@ namespace ConsoleMonitor
                 string partition = EventHubPartitionKeyResolver.ResolveToPartition(deviceName, ri.PartitionCount);
                 eventHubReceiver = eventHubClient.GetConsumerGroup(consumerGroupName).
                     CreateReceiver(partition, DateTime.Now);
-                Task.Run(() => eventLoop(eventHubReceiver));
+                Task.Run(() => EventLoopAsync(eventHubReceiver));
             } else
             {
                 EventHubReceiver[] eventHubReceivers = new EventHubReceiver[ri.PartitionCount];
@@ -42,7 +42,7 @@ namespace ConsoleMonitor
                     eventHubReceivers[i] = eventHubClient.GetConsumerGroup(consumerGroupName).CreateReceiver(partition, DateTime.Now);
                     //Task.Run(() => eventLoop(eventHubReceivers[i])); <- very common bug!
                     var r = eventHubReceivers[i];
-                    Task.Run(() => eventLoop(r));
+                    Task.Run(() => EventLoopAsync(r));
                     i++;
                 }
 
@@ -50,7 +50,7 @@ namespace ConsoleMonitor
             Console.ReadLine();
         }
 
-        private static async Task eventLoop(EventHubReceiver eventHubReceiver)
+        private static async Task EventLoopAsync(EventHubReceiver eventHubReceiver)
         {
             while (true)
             {

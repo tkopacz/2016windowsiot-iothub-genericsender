@@ -34,95 +34,138 @@ namespace IoTClient
         public MainPage()
         {
             this.InitializeComponent();
-            Setup();
+            SetupAsync();
         }
 
-        public async void Setup()
+        public async void SetupAsync()
         {
             m_t = new DispatcherTimer();
-            m_t.Tick += timer_Ticks;
+            m_t.Tick += Timer_TicksAsync;
             lstEvents.ItemsSource = m_col;
          }
         string[] deviceNames = new string[] { "PC0", "PC1", "PC2", "PC3", "PC4", "PC5", "PC6", "PC7", "PC8", "PC9" };
-        private async void timer_Ticks(object sender, object e)
+        int msg_send = 0;
+        const int BATCH_SIZE = 20;
+        private async void Timer_TicksAsync(object sender, object e)
         {
             Random rnd = new Random();
             if (m_clt == null) return;
             if (chkMsg1.IsChecked == true)
             {
-                MMsg1 msg1 = new MMsg1();
-                msg1.DeviceName = deviceNames[rnd.Next(deviceNames.Length)];
-                msg1.MsgType = "M1";
-                msg1.MyProperty1 = rnd.Next();
-                await sendMsgObj(msg1);
+                MMsg1 msg1 = new MMsg1()
+                {
+                    DeviceName = deviceNames[rnd.Next(deviceNames.Length)],
+                    MsgType = "M1",
+                    MyProperty1 = rnd.Next()
+                };
+                await SendMsgObjAsync(msg1);
             }
             if (chkMsg2.IsChecked == true)
             {
-                MMsg2 msg2 = new MMsg2();
-                msg2.DeviceName = deviceNames[rnd.Next(deviceNames.Length)];
-                msg2.MsgType = "M2";
-                msg2.MyProperty2 = "AB" + Char.ConvertFromUtf32(Char.ConvertToUtf32("A",0) + rnd.Next(24));
-                await sendMsgObj(msg2);
+                MMsg2 msg2 = new MMsg2()
+                {
+                    DeviceName = deviceNames[rnd.Next(deviceNames.Length)],
+                    MsgType = "M2",
+                    MyProperty2 = "AB" + Char.ConvertFromUtf32(Char.ConvertToUtf32("A", 0) + rnd.Next(24))
+                };
+                await SendMsgObjAsync(msg2);
             }
 
             if (chkError1.IsChecked==true)
             {
-                MError err = new MError();
-                err.DeviceName = deviceNames[rnd.Next(deviceNames.Length)];
-                err.MsgType = "E";
-                await sendMsgObj(err);
+                MError err = new MError()
+                {
+                    DeviceName = deviceNames[rnd.Next(deviceNames.Length)],
+                    MsgType = "E"
+                };
+                await SendMsgObjAsync(err);
             }
             if (chkError2.IsChecked == true)
             {
-                await sendMsg("ABC"); //Trivia
+                await SendMsgAsync("ABC"); //Trivia
             }
             DateTime now = DateTime.Now;
             TimeSpan ts = new TimeSpan(now.Year, now.Minute, now.Second, now.Millisecond);
             if (chkMAll.IsChecked == true)
             {
-                MAll mall = new MAll();
-                mall.MsgType = "ALL";
-                mall.DeviceName = deviceNames[rnd.Next(deviceNames.Length)];
-                mall.Light = 1000 * Math.Cos(ts.TotalMilliseconds / 175) * Math.Sin(ts.TotalMilliseconds / 360) + rnd.Next(30);
-                mall.Potentiometer1 = 1000 * Math.Cos(ts.TotalMilliseconds / 275) * Math.Sin(ts.TotalMilliseconds / 560) + rnd.Next(30);
-                mall.Potentiometer2 = 1000 * Math.Cos(ts.TotalMilliseconds / 60) * Math.Sin(ts.TotalMilliseconds / 120) + rnd.Next(30);
-                mall.Pressure = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 180) * Math.Sin(ts.TotalMilliseconds / 110) + rnd.Next(30));
-                mall.Temperature = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 180) * Math.Sin(ts.TotalMilliseconds / 110) + rnd.Next(30));
-                mall.ADC3 = rnd.Next(1000);
-                mall.ADC4 = rnd.Next(1000);
-                mall.ADC5 = rnd.Next(1000);
-                mall.ADC6 = rnd.Next(1000);
-                mall.ADC7 = rnd.Next(1000);
-                mall.Altitude = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 480) * Math.Sin(ts.TotalMilliseconds / 2000) + rnd.Next(30));
-                mall.ColorName = "ABC";
-                mall.ColorRaw = new ColorData() { Blue = (ushort)rnd.Next(255), Clear = (ushort)rnd.Next(255), Green = (ushort)rnd.Next(255), Red = (ushort)rnd.Next(255) };
-                mall.ColorRgb = new RgbData() { Blue = (ushort)rnd.Next(255), Green = (ushort)rnd.Next(255), Red = (ushort)rnd.Next(255) };
-                await sendMsgObj(mall);
+                MAll mall = new MAll()
+                {
+                    MsgType = "ALL",
+                    DeviceName = deviceNames[rnd.Next(deviceNames.Length)],
+                    Light = 1000 * Math.Cos(ts.TotalMilliseconds / 175) * Math.Sin(ts.TotalMilliseconds / 360) + rnd.Next(30),
+                    Potentiometer1 = 1000 * Math.Cos(ts.TotalMilliseconds / 275) * Math.Sin(ts.TotalMilliseconds / 560) + rnd.Next(30),
+                    Potentiometer2 = 1000 * Math.Cos(ts.TotalMilliseconds / 60) * Math.Sin(ts.TotalMilliseconds / 120) + rnd.Next(30),
+                    Pressure = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 180) * Math.Sin(ts.TotalMilliseconds / 110) + rnd.Next(30)),
+                    Temperature = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 180) * Math.Sin(ts.TotalMilliseconds / 110) + rnd.Next(30)),
+                    ADC3 = rnd.Next(1000),
+                    ADC4 = rnd.Next(1000),
+                    ADC5 = rnd.Next(1000),
+                    ADC6 = rnd.Next(1000),
+                    ADC7 = rnd.Next(1000),
+                    Altitude = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 480) * Math.Sin(ts.TotalMilliseconds / 2000) + rnd.Next(30)),
+                    ColorName = "ABC",
+                    ColorRaw = new ColorData() { Blue = (ushort)rnd.Next(255), Clear = (ushort)rnd.Next(255), Green = (ushort)rnd.Next(255), Red = (ushort)rnd.Next(255) },
+                    ColorRgb = new RgbData() { Blue = (ushort)rnd.Next(255), Green = (ushort)rnd.Next(255), Red = (ushort)rnd.Next(255) }
+                };
+                await SendMsgObjAsync(mall); 
             }
 
+            if (chkMAllBatch.IsChecked == true)
+            {
+                List<Message> lst = new List<Message>();
+                for (int i = 0; i < BATCH_SIZE; i++)
+                {
+                    MAll mall = new MAll()
+                    {
+                        MsgType = "ALL",
+                        DeviceName = deviceNames[rnd.Next(deviceNames.Length)],
+                        Light = 1000 * Math.Cos(ts.TotalMilliseconds / 175) * Math.Sin(ts.TotalMilliseconds / 360) + rnd.Next(30),
+                        Potentiometer1 = 1000 * Math.Cos(ts.TotalMilliseconds / 275) * Math.Sin(ts.TotalMilliseconds / 560) + rnd.Next(30),
+                        Potentiometer2 = 1000 * Math.Cos(ts.TotalMilliseconds / 60) * Math.Sin(ts.TotalMilliseconds / 120) + rnd.Next(30),
+                        Pressure = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 180) * Math.Sin(ts.TotalMilliseconds / 110) + rnd.Next(30)),
+                        Temperature = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 180) * Math.Sin(ts.TotalMilliseconds / 110) + rnd.Next(30)),
+                        ADC3 = rnd.Next(1000),
+                        ADC4 = rnd.Next(1000),
+                        ADC5 = rnd.Next(1000),
+                        ADC6 = rnd.Next(1000),
+                        ADC7 = rnd.Next(1000),
+                        Altitude = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 480) * Math.Sin(ts.TotalMilliseconds / 2000) + rnd.Next(30)),
+                        ColorName = "ABC",
+                        ColorRaw = new ColorData() { Blue = (ushort)rnd.Next(255), Clear = (ushort)rnd.Next(255), Green = (ushort)rnd.Next(255), Red = (ushort)rnd.Next(255) },
+                        ColorRgb = new RgbData() { Blue = (ushort)rnd.Next(255), Green = (ushort)rnd.Next(255), Red = (ushort)rnd.Next(255) }
+                    };
+                    lst.Add(new Message(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(mall))));
+                }
+                await m_clt.SendEventBatchAsync(lst); //Liczone jako BATCH_SIZE - nie jeden komunikat
+                msg_send += BATCH_SIZE;
+            }
             if (chkMSPI.IsChecked == true)
             {
-                MSPI mspi = new MSPI();
-                mspi.MsgType = "SPI";
-                mspi.DeviceName = deviceNames[rnd.Next(deviceNames.Length)];
-                mspi.Light = 1000 * Math.Cos(ts.TotalMilliseconds / 175) * Math.Sin(ts.TotalMilliseconds / 360) + rnd.Next(30);
-                mspi.Potentiometer1 = 1000 * Math.Cos(ts.TotalMilliseconds / 275) * Math.Sin(ts.TotalMilliseconds / 560) + rnd.Next(30);
-                mspi.Potentiometer2 = 1000 * Math.Cos(ts.TotalMilliseconds / 60) * Math.Sin(ts.TotalMilliseconds / 120) + rnd.Next(30);
-                await sendMsgObj(mspi);
+                MSPI mspi = new MSPI()
+                {
+                    MsgType = "SPI",
+                    DeviceName = deviceNames[rnd.Next(deviceNames.Length)],
+                    Light = 1000 * Math.Cos(ts.TotalMilliseconds / 175) * Math.Sin(ts.TotalMilliseconds / 360) + rnd.Next(30),
+                    Potentiometer1 = 1000 * Math.Cos(ts.TotalMilliseconds / 275) * Math.Sin(ts.TotalMilliseconds / 560) + rnd.Next(30),
+                    Potentiometer2 = 1000 * Math.Cos(ts.TotalMilliseconds / 60) * Math.Sin(ts.TotalMilliseconds / 120) + rnd.Next(30)
+                };
+                await SendMsgObjAsync(mspi);
             }
-
-
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
+                txtInfo.Text = msg_send.ToString();
+            });
         }
 
-        private async Task sendMsgObj(object data)
+        private async Task SendMsgObjAsync(object data)
         {
             var messageString = JsonConvert.SerializeObject(data);
-            await sendMsg(messageString);
+            await SendMsgAsync(messageString);
         }
 
-        private async Task sendMsg(string messageString)
+        private async Task SendMsgAsync(string messageString)
         {
             var message = new Message(Encoding.UTF8.GetBytes(messageString));
+            msg_send++;
             await m_clt.SendEventAsync(message);
         }
 
@@ -132,15 +175,25 @@ namespace IoTClient
             base.OnNavigatedTo(e);
         }
 
-        private void btnConnectSubscribe_Click(object sender, RoutedEventArgs e)
+        private void BtnConnectSubscribe_Click(object sender, RoutedEventArgs e)
         {
             btnConnectSubscribe.IsEnabled = false;
             tgSend.IsEnabled = true;
-            m_clt =DeviceClient.CreateFromConnectionString(txtConnectionString.Text,TransportType.Http1);
-            ReceiveDataFromAzure(); //Loop, last command 
+            m_clt =DeviceClient.CreateFromConnectionString(txtConnectionString.Text,TransportType.Amqp);
+            m_clt.SetMethodHandler("STOP", OnStopAsync, null); //Wymaga MQTT - inny przykład!
+            ReceiveDataFromAzureAsync(); //Loop, last command 
 
         }
-        public async Task ReceiveDataFromAzure()
+
+        async Task<MethodResponse> OnStopAsync(MethodRequest methodRequest, object userContext)
+        {
+            m_t?.Stop();
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
+                tgSend.IsOn = false;
+            });
+            return new MethodResponse(0);
+        }
+        public async Task ReceiveDataFromAzureAsync()
         {
 
             Message receivedMessage;
@@ -169,7 +222,7 @@ namespace IoTClient
             }
         }
 
-        private void tgSend_Toggled(object sender, RoutedEventArgs e)
+        private void TgSend_Toggled(object sender, RoutedEventArgs e)
         {
             if (tgSend.IsOn)
             {
@@ -182,15 +235,14 @@ namespace IoTClient
             }
         }
 
-        private void btnClear_Click(object sender, RoutedEventArgs e)
+        private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
             m_col.Clear();
         }
 
-        private void txtDelay_TextChanged(object sender, TextChangedEventArgs e)
+        private void TxtDelay_TextChanged(object sender, TextChangedEventArgs e)
         {
-            int d;
-            if (int.TryParse(txtDelay.Text,out d))
+            if (int.TryParse(txtDelay.Text,out int d))
                 m_t.Interval = TimeSpan.FromMilliseconds(d);
         }
     }
