@@ -36,6 +36,19 @@
             ClientConstants.cs
             </summary>
         </member>
+        <member name="T:Microsoft.Azure.Amqp.AmqpDebug">
+            <summary>
+            This class logs the frame activity on session and dumps them into a file
+            for debugging issues that are difficult to repro under debugger. The output
+            file is named as "session#.log" and it contains lines as follows:
+              ticks(10000)	direction	op	p1	p2
+              1653194746831	9	RECV	17	0	0
+              1653194746844	9	SEND	17	0	0
+            Refer to the calls to AmqpDebug.Log for parameter definition.
+            Enable this logging by including AMQP_DEBUG constant in the project file
+            for the desired build configuration.
+            </summary>
+        </member>
         <member name="T:Microsoft.Azure.Amqp.AmqpLink">
             <summary>
             Implements the transport-layer link, including
@@ -627,6 +640,66 @@
             Supported versions in preferred order.
             </summary>
         </member>
+        <member name="T:Microsoft.Azure.Amqp.X509.X509CertificateIdentity">
+            <summary>
+            Represents an X509 certificate as a security identity
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Amqp.X509.X509CertificateIdentity.#ctor(System.Security.Cryptography.X509Certificates.X509Certificate2,System.Boolean)">
+            <summary>
+            ctor which takes a X509 certificate
+            </summary>
+            <param name="certificate"></param>
+            <param name="isAuthenticated"></param>
+        </member>
+        <member name="P:Microsoft.Azure.Amqp.X509.X509CertificateIdentity.Name">
+            <summary>
+            Name accessor
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Amqp.X509.X509CertificateIdentity.AuthenticationType">
+            <summary>
+             Authentication type accessor
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Amqp.X509.X509CertificateIdentity.IsAuthenticated">
+            <summary>
+             IsAuthenticated accessor
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Amqp.X509.X509CertificateIdentity.Certificate">
+            <summary>
+             Actual X509 Certificate
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.X509.X509Principal">
+            <summary>
+            Used to report a X509 certificate used as a security credential 
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Amqp.X509.X509Principal.#ctor(Microsoft.Azure.Amqp.X509.X509CertificateIdentity)">
+            <summary>
+            Ctor which takes identity as input
+            </summary>
+            <param name="identity"></param>
+        </member>
+        <member name="P:Microsoft.Azure.Amqp.X509.X509Principal.Identity">
+            <summary>
+            Get Accessor
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Amqp.X509.X509Principal.CertificateIdentity">
+            <summary>
+             Type specific get accessor
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Amqp.X509.X509Principal.IsInRole(System.String)">
+            <summary>
+             Method not implemented
+            </summary>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
         <member name="M:Microsoft.Azure.Amqp.InternalBufferManager.PreallocatedBufferManager.ReturnBuffer(System.Byte[])">
             <summary>
             Returned buffer must have been acquired via a call to TakeBuffer
@@ -873,21 +946,6 @@
             <summary>
             Create a Task based on Begin/End IAsyncResult pattern.
             </summary>
-            <param name="begin"></param>
-            <param name="end"></param>
-            <param name="state"> 
-            This parameter helps reduce allocations by passing state to the Funcs. e.g.:
-             await TaskHelpers.CreateTask(
-                 (c, s) => ((Transaction)s).BeginCommit(c, s),
-                 (a) => ((Transaction)a.AsyncState).EndCommit(a),
-                 transaction);
-            </param>
-        </member>
-        <member name="M:Microsoft.Azure.Amqp.TaskHelpers.CreateTransactionalTask(System.Transactions.Transaction,System.Func{System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},System.Object)">
-            <summary>
-            Create a Task based on Begin/End IAsyncResult pattern.
-            </summary>
-            <param name="transaction">The transaction (optional) to use.  If not null a TransactionScope will be used when calling the begin Func.</param>
             <param name="begin"></param>
             <param name="end"></param>
             <param name="state"> 

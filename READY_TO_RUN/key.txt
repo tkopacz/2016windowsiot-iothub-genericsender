@@ -1,0 +1,20 @@
+HostName=pltkw3IoT.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=44ggjWIC2MNSPrTFcEINZGUjN2wo2X5HOF8ZXMSDMP0=
+HostName=pltkdpepliot2016.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=V65o7wxP6NispZ+IYef7i4hnMBDk5c6PAd0uUrtdr2k=
+HostName=pltkdpepliot2016.azure-devices.net;DeviceId=D01;SharedAccessKey=CupfKeNmHnuL7gOMsYUX0dxpx0Dyqf0QNHgnp3NgnPo=
+HostName=pltkdpepliot2016.azure-devices.net;DeviceId=DeviceCPP;SharedAccessKey=iD3NCqzFFQiBFJAaeyhgeqTwAeJ5aye5UG2fIo0XEYU=
+
+
+    HostName=pltkdpepliot2016.azure-devices.net;DeviceId=D01;SharedAccessKey=CupfKeNmHnuL7gOMsYUX0dxpx0Dyqf0QNHgnp3NgnPo=
+    HostName=pltkdpepliot2016.azure-devices.net;SharedAccessKeyName=device;SharedAccessKey=cs0DDu8igHSdISbL7U6Xb/UMOAizhhpg9ZspgkZ2zQU=
+    HostName=pltkdpepliot2016.azure-devices.net;SharedAccessKeyName=service;SharedAccessKey=V9uO2ixtf4RX2pK0kKvpqgfQisVpcNcvBbHe0esdIPU=
+    HostName=pltkdpepliot2016.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=V65o7wxP6NispZ+IYef7i4hnMBDk5c6PAd0uUrtdr2k=
+
+    HostName=pltkdpepliot2016.azure-devices.net;DeviceId=RPI2RASPBIAN;SharedAccessKey=YN7dikBgiTqEoxOlPPW/EYTVpygQRSF86/p/QHSV2DA=
+    
+    HostName=pltkdpepliot2016.azure-devices.net;DeviceId=PC;SharedAccessKey=SkK5o6nvAy+dIdhuoeReDAu6Jidh03xg3tWEyGhsHkY=
+
+
+    mvafy15
+    mvafy15eh
+    sender
+    +QVhVeai+B1SbI44/TtN4dPelog8QeE5EQ041wXp+60=
