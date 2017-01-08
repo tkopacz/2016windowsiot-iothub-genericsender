@@ -46,9 +46,9 @@ namespace IoTClient
         string[] deviceNames = new string[] { "PC0", "PC1", "PC2", "PC3", "PC4", "PC5", "PC6", "PC7", "PC8", "PC9" };
         int msg_send = 0;
         const int BATCH_SIZE = 20;
+        Random rnd = new Random();
         private async void Timer_TicksAsync(object sender, object e)
         {
-            Random rnd = new Random();
             if (m_clt == null) return;
             if (chkMsg1.IsChecked == true)
             {
@@ -65,7 +65,6 @@ namespace IoTClient
                 MMsg2 msg2 = new MMsg2()
                 {
                     DeviceName = deviceNames[rnd.Next(deviceNames.Length)],
-                    MsgType = "M2",
                     MyProperty2 = "AB" + Char.ConvertFromUtf32(Char.ConvertToUtf32("A", 0) + rnd.Next(24))
                 };
                 await SendMsgObjAsync(msg2);
@@ -76,7 +75,6 @@ namespace IoTClient
                 MError err = new MError()
                 {
                     DeviceName = deviceNames[rnd.Next(deviceNames.Length)],
-                    MsgType = "E"
                 };
                 await SendMsgObjAsync(err);
             }
@@ -90,7 +88,6 @@ namespace IoTClient
             {
                 MAll mall = new MAll()
                 {
-                    MsgType = "ALL",
                     DeviceName = deviceNames[rnd.Next(deviceNames.Length)],
                     Light = 1000 * Math.Cos(ts.TotalMilliseconds / 175) * Math.Sin(ts.TotalMilliseconds / 360) + rnd.Next(30),
                     Potentiometer1 = 1000 * Math.Cos(ts.TotalMilliseconds / 275) * Math.Sin(ts.TotalMilliseconds / 560) + rnd.Next(30),
@@ -117,7 +114,6 @@ namespace IoTClient
                 {
                     MAll mall = new MAll()
                     {
-                        MsgType = "ALL",
                         DeviceName = deviceNames[rnd.Next(deviceNames.Length)],
                         Light = 1000 * Math.Cos(ts.TotalMilliseconds / 175) * Math.Sin(ts.TotalMilliseconds / 360) + rnd.Next(30),
                         Potentiometer1 = 1000 * Math.Cos(ts.TotalMilliseconds / 275) * Math.Sin(ts.TotalMilliseconds / 560) + rnd.Next(30),
@@ -143,7 +139,6 @@ namespace IoTClient
             {
                 MSPI mspi = new MSPI()
                 {
-                    MsgType = "SPI",
                     DeviceName = deviceNames[rnd.Next(deviceNames.Length)],
                     Light = 1000 * Math.Cos(ts.TotalMilliseconds / 175) * Math.Sin(ts.TotalMilliseconds / 360) + rnd.Next(30),
                     Potentiometer1 = 1000 * Math.Cos(ts.TotalMilliseconds / 275) * Math.Sin(ts.TotalMilliseconds / 560) + rnd.Next(30),
@@ -151,6 +146,45 @@ namespace IoTClient
                 };
                 await SendMsgObjAsync(mspi);
             }
+            if (chkMAllNum.IsChecked == true)
+            {
+                MAllNum mallnum = new MAllNum()
+                {
+                    DeviceName = deviceNames[rnd.Next(deviceNames.Length)],
+                    Light = 1000 * Math.Cos(ts.TotalMilliseconds / 175) * Math.Sin(ts.TotalMilliseconds / 360) + rnd.Next(30),
+                    Potentiometer1 = 1000 * Math.Cos(ts.TotalMilliseconds / 275) * Math.Sin(ts.TotalMilliseconds / 560) + rnd.Next(30),
+                    Potentiometer2 = 1000 * Math.Cos(ts.TotalMilliseconds / 60) * Math.Sin(ts.TotalMilliseconds / 120) + rnd.Next(30),
+                    Pressure = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 180) * Math.Sin(ts.TotalMilliseconds / 110) + rnd.Next(30)),
+                    Temperature = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 180) * Math.Sin(ts.TotalMilliseconds / 110) + rnd.Next(30)),
+                    ADC3 = rnd.Next(1000),
+                    ADC4 = rnd.Next(1000),
+                    ADC5 = rnd.Next(1000),
+                    ADC6 = rnd.Next(1000),
+                    ADC7 = rnd.Next(1000),
+                    Altitude = (float)(1000 * Math.Cos(ts.TotalMilliseconds / 480) * Math.Sin(ts.TotalMilliseconds / 2000) + rnd.Next(30)),
+                };
+                await SendMsgObjAsync(mallnum);
+            }
+            if (chkMSentence.IsChecked == true)
+            {
+                MSentence m = new MSentence()
+                {
+                    DeviceName = deviceNames[rnd.Next(deviceNames.Length)],
+                    Sentence = Data.Sentences[rnd.Next(Data.Sentences.Length)]
+                };
+                await SendMsgObjAsync(m);
+            }
+            if (chkMWord.IsChecked == true)
+            {
+                MWord m = new MWord()
+                {
+                    DeviceName = deviceNames[rnd.Next(deviceNames.Length)],
+                    Word = Data.Words[rnd.Next(Data.Words.Length)]
+                };
+                await SendMsgObjAsync(m);
+            }
+
+
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
                 txtInfo.Text = msg_send.ToString();
             });
@@ -165,6 +199,9 @@ namespace IoTClient
         private async Task SendMsgAsync(string messageString)
         {
             var message = new Message(Encoding.UTF8.GetBytes(messageString));
+            //Add properties for routing
+            if (rnd.NextDouble() > 0.8) { message.Properties.Add("direction", "eventhub"); }
+            if (rnd.NextDouble() > 0.9) { message.Properties.Add("status", "error"); }
             msg_send++;
             await m_clt.SendEventAsync(message);
         }

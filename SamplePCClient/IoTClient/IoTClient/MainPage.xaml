@@ -9,20 +9,23 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBox x:Name="txtConnectionString" HorizontalAlignment="Left" Margin="10,61,0,0" TextWrapping="Wrap" Text="HostName=pltkdpepliot2016.azure-devices.net;DeviceId=PC;SharedAccessKey=&lt;dajmigo&gt;" VerticalAlignment="Top" Width="569" Height="125"/>
-        <Button x:Name="btnConnectSubscribe" Content="Connect &amp; Subscribe" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top" Width="720" Click="btnConnectSubscribe_Click"/>
-        <ListView x:Name="lstEvents" HorizontalAlignment="Left" Height="389" Margin="10,228,0,0" VerticalAlignment="Top" Width="569" Background="#0C000000"/>
-        <TextBox x:Name="txtDelay" HorizontalAlignment="Left" Margin="584,228,0,0" TextWrapping="Wrap" Text="10000" VerticalAlignment="Top" Width="122" TextAlignment="Right" TextChanged="txtDelay_TextChanged"/>
+        <Button x:Name="btnConnectSubscribe" Content="Connect &amp; Subscribe" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top" Width="720" Click="BtnConnectSubscribe_Click"/>
+        <ListView x:Name="lstEvents" HorizontalAlignment="Left" Height="550" Margin="10,228,0,0" VerticalAlignment="Top" Width="569" Background="#0C000000"/>
+        <TextBox x:Name="txtDelay" HorizontalAlignment="Left" Margin="584,228,0,0" TextWrapping="Wrap" Text="10000" VerticalAlignment="Top" Width="122" TextAlignment="Right" TextChanged="TxtDelay_TextChanged"/>
         <CheckBox x:Name="chkMsg1" Content="Msg1" HorizontalAlignment="Left" Margin="584,325,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="chkMsg2" Content="Msg2" HorizontalAlignment="Left" Margin="584,357,0,0" VerticalAlignment="Top"/>
-        <ToggleSwitch x:Name="tgSend" Header="Send" HorizontalAlignment="Left" Margin="586,265,0,0" VerticalAlignment="Top" Width="120" Toggled="tgSend_Toggled" IsEnabled="False"/>
+        <ToggleSwitch x:Name="tgSend" Header="Send" HorizontalAlignment="Left" Margin="586,265,0,0" VerticalAlignment="Top" Width="120" Toggled="TgSend_Toggled" IsEnabled="False"/>
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="711,232,0,0" TextWrapping="Wrap" Text="ms" VerticalAlignment="Top" Height="25"/>
         <CheckBox x:Name="chkError2" Content="Error2" HorizontalAlignment="Left" Margin="584,421,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="chkError1" Content="Error1" HorizontalAlignment="Left" Margin="584,389,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="cmdClear" Content="&lt; Clear" HorizontalAlignment="Left" Margin="584,573,0,0" VerticalAlignment="Top" Height="44" Width="144" Click="btnClear_Click"/>
+        <Button x:Name="cmdClear" Content="&lt; Clear" HorizontalAlignment="Left" Margin="584,734,0,0" VerticalAlignment="Top" Height="44" Width="144" Click="BtnClear_Click"/>
         <CheckBox x:Name="chkMSPI" Content="MSPI" HorizontalAlignment="Left" Margin="584,453,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="chkMAll" Content="MAll" HorizontalAlignment="Left" Margin="584,485,0,0" VerticalAlignment="Top"/>
         <CheckBox x:Name="chkMAllBatch" Content="MAllBatch" HorizontalAlignment="Left" Margin="584,517,0,0" VerticalAlignment="Top"/>
         <TextBlock x:Name="txtInfo" HorizontalAlignment="Left" Margin="584,61,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="144" Height="125"/>
+        <CheckBox x:Name="chkMAllNum" Content="MAllNum" HorizontalAlignment="Left" Margin="584,549,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkMSentence" Content="MSentence" HorizontalAlignment="Left" Margin="584,581,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="chkMWord" Content="MWord" HorizontalAlignment="Left" Margin="584,613,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Page>
