@@ -43,7 +43,7 @@ namespace IoTClient
             m_t.Tick += Timer_TicksAsync;
             lstEvents.ItemsSource = m_col;
          }
-        string[] deviceNames = new string[] { "PC0", "PC1", "PC2", "PC3", "PC4", "PC5", "PC6", "PC7", "PC8", "PC9" };
+        string[] deviceNames = new string[] { "PC", "PC0", "PC1", "PC2", "PC3", "PC4", "PC5", "PC6", "PC7", "PC8", "PC9" };
         int msg_send = 0;
         const int BATCH_SIZE = 20;
         Random rnd = new Random();
